@@ -1,6 +1,6 @@
 # My MVC App
 
-Built with [@erwininteractive/mvc](https://github.com/erwininteractive/mvc).
+Built with [@andrewthecoder/erwinmvc](https://github.com/andrewthecodertx/erwinmvc).
 
 ## Quick Start
 
@@ -216,14 +216,9 @@ Use EJS for layout while adding React components where needed:
 
 ### API-Only Mode
 
-For pure API development, disable EJS:
+For pure API development, just don't call `res.render()` — use `res.json()`:
 
 ```typescript
-const { app } = await createMvcApp({
-  viewsPath: "src/views",
-  disableViewEngine: true,
-});
-
 app.get("/api/users", async (req, res) => {
   res.json(users);  // Always JSON
 });
@@ -232,7 +227,7 @@ app.get("/api/users", async (req, res) => {
 ### Step 5: Use in Your Code
 
 ```typescript
-import { getPrismaClient } from "@erwininteractive/mvc";
+import { getPrismaClient } from "@andrewthecoder/erwinmvc";
 
 const prisma = getPrismaClient();
 
@@ -312,7 +307,7 @@ Link to them in your templates:
 
 | Command | Description |
 |---------|-------------|
-| `npx @erwininteractive/mvc init <dir>` | Create a new app |
+| `npx @andrewthecoder/erwinmvc init <dir>` | Create a new app |
 | `npx erwinmvc generate resource <name>` | Generate model + controller + views |
 | `npx erwinmvc generate controller <name>` | Generate a CRUD controller |
 | `npx erwinmvc generate model <name>` | Generate a database model |
@@ -328,6 +323,22 @@ Link to them in your templates:
 | `--with-ci` | Include GitHub Actions CI workflow |
 
 ### Resource Options
+
+| Option | Description |
+|--------|-------------|
+| `--skip-model` | Skip generating Prisma model |
+| `--skip-controller` | Skip generating controller |
+| `--skip-views` | Skip generating views |
+| `--skip-migrate` | Skip running Prisma migrate |
+| `--api-only` | Generate API-only controller (no views) |
+
+### Auth Options
+
+| Option | Description |
+|--------|-------------|
+| `--without-model` | Skip generating User model |
+| `--session-only` | Only session-based auth (no JWT tokens) |
+| `--jwt-only` | Only JWT tokens (no sessions) |
 
 ## Learn More
 

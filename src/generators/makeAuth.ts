@@ -93,8 +93,8 @@ function createAuthTemplates(templateDir: string): void {
 
   // Create AuthController template
   const controllerTemplate = `import { Request, Response } from "express";
-import { hashPassword, verifyPassword, signToken, verifyToken } from "@erwininteractive/mvc";
-import { getPrismaClient } from "@erwininteractive/mvc";
+import { hashPassword, verifyPassword, signToken, verifyToken } from "@andrewthecoder/erwinmvc";
+import { getPrismaClient } from "@andrewthecoder/erwinmvc";
 
 const prisma = getPrismaClient();
 

@@ -15,7 +15,7 @@ export function getPackageRoot(): string {
     if (fs.existsSync(packageJsonPath)) {
       try {
         const pkg = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
-        if (pkg.name === "@erwininteractive/mvc") {
+        if (pkg.name === "@andrewthecoder/erwinmvc") {
           return dir;
         }
       } catch {

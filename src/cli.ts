@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
+import { readFileSync } from "fs";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
 import { initApp } from "./generators/initApp";
 import { generateModel } from "./generators/generateModel";
 import { generateController } from "./generators/generateController";
@@ -9,12 +12,23 @@ import { generateWebAuthn } from "./generators/generateWebAuthn";
 import { listRoutes } from "./generators/listRoutes";
 import { makeAuth } from "./generators/makeAuth";
 
+// Read version from package.json so it stays in sync
+function getVersion(): string {
+  try {
+    const pkgPath = join(__dirname, "..", "package.json");
+    const pkg = JSON.parse(readFileSync(pkgPath, "utf-8"));
+    return pkg.version || "0.0.0";
+  } catch {
+    return "0.0.0";
+  }
+}
+
 const program = new Command();
 
 program
   .name("erwinmvc")
-  .description("CLI for @erwininteractive/mvc framework")
-  .version("0.2.0")
+  .description("CLI for @andrewthecoder/erwinmvc framework")
+  .version(getVersion())
   .addHelpText("after", `
 Examples:
    $ erwinmvc init myapp                     Create a new app

@@ -1,7 +1,7 @@
 {
   "name": "my-mvc-app",
   "version": "1.0.0",
-  "description": "MVC application built with @erwininteractive/mvc",
+  "description": "MVC application built with @andrewthecoder/erwinmvc",
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
@@ -12,12 +12,10 @@
     "db:push": "prisma db push"
   },
   "dependencies": {
-    "@erwininteractive/mvc": "^0.6.0",
-    "cookie-parser": "^1.4.6",
+    "@andrewthecoder/erwinmvc": "^0.8.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/cookie-parser": "^1.4.7",
     "@types/ejs": "^3.1.5",
     "@types/express": "^5.0.0",
     "@types/node": "^22.7.5",

@@ -5,4 +5,4 @@
  * Note: Authentication requires database setup.
  * See README.md for instructions on enabling auth.
  */
-export { authenticate } from "@erwininteractive/mvc";
+export { authenticate } from "@andrewthecoder/erwinmvc";

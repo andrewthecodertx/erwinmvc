@@ -58,7 +58,7 @@ export async function initApp(dir: string, options: InitOptions = {}): Promise<v
     pkg.name = path.basename(dir);
     
     // Use npm package version (not file path)
-    pkg.dependencies["@erwininteractive/mvc"] = `^${getFrameworkVersion()}`;
+    pkg.dependencies["@andrewthecoder/erwinmvc"] = `^${getFrameworkVersion()}`;
     
     fs.writeFileSync(appPackageJson, JSON.stringify(pkg, null, 2));
   }

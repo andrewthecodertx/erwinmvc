@@ -1,7 +1,15 @@
 import type { Request, Response } from "express";
-import { getPrismaClient } from "@erwininteractive/mvc";
+import { getPrismaClient } from "@andrewthecoder/erwinmvc";
 
-const prisma = getPrismaClient();
+/**
+ * Lazily resolve the Prisma client on first use.
+ *
+ * Calling getPrismaClient() at module scope would throw on import when the
+ * database has not been set up yet, which takes down the whole app.
+ */
+function db(): any {
+  return getPrismaClient();
+}
 
 /**
  * GET /<%= resourcePath %>
@@ -9,7 +17,7 @@ const prisma = getPrismaClient();
  */
 export async function index(req: Request, res: Response): Promise<void> {
   try {
-    const data = await prisma.<%= lowerModelName %>.findMany();
+    const data = await db().<%= lowerModelName %>.findMany();
     res.json(data);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch <%= lowerModelName %> records" });
@@ -28,7 +36,7 @@ export async function show(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    const item = await prisma.<%= lowerModelName %>.findUnique({ where: { id } });
+    const item = await db().<%= lowerModelName %>.findUnique({ where: { id } });
     if (!item) {
       res.status(404).json({ error: "<%= modelName %> not found" });
       return;
@@ -47,7 +55,7 @@ export async function show(req: Request, res: Response): Promise<void> {
 export async function store(req: Request, res: Response): Promise<void> {
   try {
     const data = req.body;
-    const item = await prisma.<%= lowerModelName %>.create({ data });
+    const item = await db().<%= lowerModelName %>.create({ data });
     res.status(201).json(item);
   } catch (error) {
     res.status(500).json({ error: "Failed to create <%= lowerModelName %>" });
@@ -67,7 +75,7 @@ export async function update(req: Request, res: Response): Promise<void> {
     }
 
     const data = req.body;
-    const item = await prisma.<%= lowerModelName %>.update({
+    const item = await db().<%= lowerModelName %>.update({
       where: { id },
       data,
     });
@@ -90,7 +98,7 @@ export async function destroy(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    await prisma.<%= lowerModelName %>.delete({ where: { id } });
+    await db().<%= lowerModelName %>.delete({ where: { id } });
     res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: "Failed to delete <%= lowerModelName %>" });

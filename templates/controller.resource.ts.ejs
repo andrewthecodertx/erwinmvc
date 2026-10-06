@@ -1,7 +1,15 @@
 import type { Request, Response } from "express";
-import { getPrismaClient } from "@erwininteractive/mvc";
+import { getPrismaClient } from "@andrewthecoder/erwinmvc";
 
-const prisma = getPrismaClient();
+/**
+ * Lazily resolve the Prisma client on first use.
+ *
+ * Calling getPrismaClient() at module scope would throw on import when the
+ * database has not been set up yet, which takes down the whole app.
+ */
+function db(): any {
+  return getPrismaClient();
+}
 
 /**
  * GET /<%= resourcePath %>
@@ -9,7 +17,7 @@ const prisma = getPrismaClient();
  */
 export async function index(req: Request, res: Response): Promise<void> {
   try {
-    const items = await prisma.<%= lowerModelName %>.findMany({
+    const items = await db().<%= lowerModelName %>.findMany({
       orderBy: { createdAt: "desc" },
     });
     res.render("<%= resourcePath %>/index", { 
@@ -44,7 +52,7 @@ export async function create(req: Request, res: Response): Promise<void> {
 export async function store(req: Request, res: Response): Promise<void> {
   try {
     const data = req.body;
-    const item = await prisma.<%= lowerModelName %>.create({ data });
+    const item = await db().<%= lowerModelName %>.create({ data });
     res.redirect(`/<%= resourcePath %>/${item.id}`);
   } catch (error) {
     console.error("Error creating <%= lowerModelName %>:", error);
@@ -68,7 +76,7 @@ export async function show(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    const item = await prisma.<%= lowerModelName %>.findUnique({ where: { id } });
+    const item = await db().<%= lowerModelName %>.findUnique({ where: { id } });
     if (!item) {
       res.status(404).render("error", { 
         title: "Not Found", 
@@ -102,7 +110,7 @@ export async function edit(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    const item = await prisma.<%= lowerModelName %>.findUnique({ where: { id } });
+    const item = await db().<%= lowerModelName %>.findUnique({ where: { id } });
     if (!item) {
       res.status(404).render("error", { 
         title: "Not Found", 
@@ -138,7 +146,7 @@ export async function update(req: Request, res: Response): Promise<void> {
     }
 
     const data = req.body;
-    await prisma.<%= lowerModelName %>.update({
+    await db().<%= lowerModelName %>.update({
       where: { id },
       data,
     });
@@ -166,7 +174,7 @@ export async function destroy(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    await prisma.<%= lowerModelName %>.delete({ where: { id } });
+    await db().<%= lowerModelName %>.delete({ where: { id } });
     
     // Check if request wants JSON response
     if (req.accepts("json") && !req.accepts("html")) {

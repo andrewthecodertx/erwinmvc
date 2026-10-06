@@ -1,4 +1,4 @@
-# Contributing to @erwininteractive/mvc
+# Contributing to @andrewthecoder/erwinmvc
 
 Thank you for your interest in contributing to the Erwin MVC framework! This
 document provides guidelines for contributing effectively.
@@ -211,7 +211,7 @@ added feature
 
 1. **Push your branch** to your fork
 2. **Go to GitHub** and click "Compare & pull request"
-3. **Select the correct base**: `erwininteractive/mvc:main`
+3. **Select the correct base**: `andrewthecodertx/erwinmvc:main`
 4. **Fill in the PR template** (if provided)
 
 ### PR Title Format

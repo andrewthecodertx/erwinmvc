@@ -78,7 +78,7 @@ describe("Generators", () => {
       const templatePath = path.resolve(__dirname, "../templates/controller.ts.ejs");
       const content = fs.readFileSync(templatePath, "utf-8");
 
-      expect(content).toContain("@erwininteractive/mvc");
+      expect(content).toContain("@andrewthecoder/erwinmvc");
       expect(content).toContain("getPrismaClient");
     });
   });

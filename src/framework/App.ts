@@ -1,5 +1,8 @@
 import express, { Express, Request, Response, NextFunction } from "express";
 import session from "express-session";
+import flash from "connect-flash";
+import cookieParser from "cookie-parser";
+import methodOverride from "method-override";
 import { createClient, RedisClientType } from "redis";
 import RedisStore from "connect-redis";
 import helmet from "helmet";
@@ -61,6 +64,15 @@ export async function createMvcApp(options: MvcAppOptions = {}): Promise<MvcApp>
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
+  // Method override: let HTML forms emit PUT/PATCH/DELETE. Forms can only send
+  // GET/POST, so the generated views post to e.g. "/posts/1?_method=PUT".
+  // Restricted to POST so a GET link can never be turned into a mutation.
+  // Runs after the body parsers so a hidden `_method` input also works.
+  app.use(methodOverride("_method", { methods: ["POST"] }));
+
+  // Cookie parsing (needed for JWT cookie auth)
+  app.use(cookieParser());
+
   // Static files
   app.use(express.static(path.resolve(publicPath)));
 
@@ -100,6 +112,9 @@ export async function createMvcApp(options: MvcAppOptions = {}): Promise<MvcApp>
     // Use memory sessions when Redis is not configured
     setupMemorySessions(app);
   }
+
+  // Flash messages (requires session)
+  app.use(flash());
 
   // View engine
   app.set("view engine", "ejs");

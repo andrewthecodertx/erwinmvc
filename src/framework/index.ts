@@ -24,7 +24,7 @@ export {
 } from "./WebAuthn";
 
 // Validation
-export { validate, getFieldErrors, getErrors, getOldInput } from "./Validation";
+export { validate, getFieldErrors, getErrors, getOldInput, hasFieldError, getFieldError } from "./Validation";
 
 // Routing
 export { registerControllers, registerController } from "./Router";
